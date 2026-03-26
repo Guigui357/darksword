@@ -1,0 +1,25 @@
+name: Build Exploit
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Compile exploit
+        run: |
+          clang src/main.m -o exploit \
+          -framework Foundation \
+          -framework IOSurface
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: exploit-bin
+          path: exploit
